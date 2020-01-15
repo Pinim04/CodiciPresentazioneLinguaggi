@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define N 60
+
+int main(void) {
+
+	char s[N+1];
+	int i = 0, a = 0, temp = 0, b = 0, endWord = 0, sum = 0, nullCharCount = 0, flag = 0, nChar[5], endSort = 0;
+	float media = 0;
+
+	/*Input array e controllo della sintassi(che non ci siano spazi prima della stringa / se presenti in mezzo o dopo la stringa verranno considerati parole) **ATTENZIONE ALLA SINTASSI** */
+	do{
+	printf("Inserisci testo:");
+	gets(s);
+
+	for(i=0; s[i] == ' ' || s[i] == '.'; i++){
+		nullCharCount++;
+		flag = 1;
+	}
+
+	if(flag != 0)
+		nullCharCount++;
+
+	for(i=0; i<strlen(s); i++)
+		{
+			if(isalnum(s[nullCharCount])){
+				sum++;
+				a++;
+			}
+
+			if(s[nullCharCount] == ' ' || s[nullCharCount] == '.'){
+				nChar[endWord] = a;
+				a = 0;
+				endWord++;
+			}
+		nullCharCount++;
+		}
+	nChar[endWord] = a;
+
+	if(endWord > 4)
+		printf("La stringa non e' accettabile, contiene piu' di 5 parole\n");
+
+	if(sum > 60)
+		printf("La stringa non e' accettabile, contiene piu' di 60 caratteri\n");
+	} while(endWord > 4 || sum > 60);
+
+	/*Output numero parole nella stringa*/
+
+	if(endWord>0){
+		printf("\nLa frase contiene %d parole\n", endWord + 1);
+	}else{
+		printf("\nLa frase contiene %d parola\n", endWord + 1);
+	}
+
+	/*Output numero medio caratteri nelle parole*/
+
+	media=(float)sum/(endWord + 1);
+	if(media>1){
+		printf("La lunghezza media delle parole e' di %.2f caratteri\n", media);
+	}else{
+		printf("La lunghezza media delle parole e' di %.2f carattere\n", media);
+	}
+
+	do{
+	endSort=0;
+	int y = 0;
+	for(y=0; y<endWord; y++){
+		if(nChar[y+1]<nChar[y]){
+			temp = nChar[y];
+			nChar[y] = nChar[y+1];
+			nChar[y+1] = temp;
+			endSort=1;
+		}
+	}
+	}while(endSort == 1);
+
+	printf("La stringa contiene:\n");
+
+	for(i=0; i<(endWord+1); i++){
+		if(nChar[i] == nChar[i+1]){
+			b++;
+		}else{
+			b++;
+			if(b>1){
+				if(nChar[i]>1){
+					printf("%d parole da %d caratteri\n", b, nChar[i]);
+				}else{
+					printf("%d parole da %d carattere\n", b, nChar[i]);
+				}
+			}else{
+				if(nChar[i]>1){
+					printf("%d parola da %d caratteri\n", b, nChar[i]);
+				}else{
+					printf("%d parola da %d carattere\n", b, nChar[i]);
+				}
+			}
+			b = 0;
+		}
+	}
+	return 0;
+}
