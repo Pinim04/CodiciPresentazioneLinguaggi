@@ -1,0 +1,7 @@
+var
+  pointer : ^int;
+  number : int;
+begin
+  number := 10;
+  pointer := @number
+end.
